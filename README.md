@@ -4,7 +4,7 @@ Practical material for NERC/NCEO/DARC Training course on data assimilation and i
 ## On Google Colab (Recommended)
 This year, the DARC training course is splitted into foundation and advanced course. In the foundation course, this repository covers:
 - Building blocks of DA: [Streamlit](https://alisonfowler-da-training-oi-1-optimal-interpolation-3dxab6.streamlit.app/) and [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Control_DA_components.ipynb) 
-- Reanalysis: [Jupyter Notebook]
+- Reanalysis: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/reanalysis.ipynb)
 
 In the advanced course, we provide practicals for 
 - Variational DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Var.ipynb) and [JEDI instructions](JEDI_exps_instructions.pdf)
