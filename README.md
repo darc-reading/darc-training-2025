@@ -7,7 +7,7 @@ This year, the DARC training course is splitted into foundation and advanced cou
 - Reanalysis: [Jupyter Notebook]
 
 In the advanced course, we provide practicals for 
-- Variational DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Var.ipynb)
+- Variational DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Var.ipynb) and [JEDI instructions](JEDI_exps_instructions.pdf)
 - EnKF DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Enkf.ipynb) and [Optional Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L63_Enkf.ipynb)
 - Machine learning and DA [To be released]
 
