@@ -25,7 +25,7 @@ jupyter notebook
 # Setting up connections to Reading Academic Computing Cluster (RACC)
 Advanced course participants will obtain a temporary RACC account. To utilise the computing resources on the computing cluster, users must connect to RACC via `ssh`. University of Reading provides detailed tutorials for the connection to the **previous** RACC. 
 >[!NOTE]
->When following the following tutorials, you should use `arc-ssh.reading.ac.uk` instead of `act-ssh.reading.ac.uk:2222` or `act-ssh.reading.ac.uk -p2222`, and `racc.rdg.ac.uk` instead of `cluster.act.rdg.ac.uk` whenever you come across them.
+>When follow the following tutorials, you should use `arc-ssh.reading.ac.uk` instead of `act-ssh.reading.ac.uk:2222` or `act-ssh.reading.ac.uk -p2222`, and `racc.rdg.ac.uk` instead of `cluster.act.rdg.ac.uk` whenever you come across them.
 
 The tutorial for connecting to RACC on Windows can be found [here](https://research.reading.ac.uk/act/knowledgebase/act-ssh-with-mobaxterm-step-by-step-guide/). For Mac and Linux users, the tutorial can be found [here](https://research.reading.ac.uk/act/knowledgebase/act-ssh-for-linux-and-mac-users-step-by-step-guide/).
 
