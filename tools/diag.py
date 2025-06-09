@@ -45,7 +45,7 @@ def compute_lin_error(dx, x0, F, tf, deltat):
 def rmse_spread(xt, xmean, Xens, anawin):
     """Compute RMSE and spread.
 
-    This function computes the RMSE of the background (or analysis) 
+    This function computes the RMSE of the background (or analysis)
     mean with respect to the true run, as well as the spread of
     the background (or analysis) ensemble.
 
@@ -78,7 +78,7 @@ def rmse_spread(xt, xmean, Xens, anawin):
     mse = np.mean((xt[:, ind] - xmean[:, ind])**2, axis=0)
     rmse = np.sqrt(mse)
 
-    if np.any(Xens) != None:
+    if isinstance(Xens, np.ndarray):
         spread = np.var(Xens[..., ind], ddof=1, axis=1)
         spread = np.mean(spread, axis=0)
         spread = np.sqrt(spread)

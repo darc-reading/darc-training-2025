@@ -167,16 +167,16 @@ def plotRMSP(exp_title,t,rmseb=None,rmsea=None,spreadb=None,spreada=None):
         time array. shape: nt
     rmseb : ndarray
         RMSE of background. shape: nt
-    rmsea : 
+    rmsea :
         RMSE of analysis. shape: nt
-    spreadb : 
+    spreadb :
         Ensemble spread of background. shape: nt
-    spreada : 
+    spreada :
         Ensemble spread of analysis. shape: nt
     """
     plt.figure()
     plt.subplot(2,1,1)
-    if np.all(rmseb)!=None:
+    if isinstance(rmseb, np.ndarray):
         plt.plot(t, rmseb,'b',label='background')
     plt.plot(t, rmsea,'m',label='analysis')
     plt.legend()
@@ -185,9 +185,9 @@ def plotRMSP(exp_title,t,rmseb=None,rmsea=None,spreadb=None,spreada=None):
     plt.title(exp_title)
     plt.grid(True)
 
-    if np.all(spreadb)!=None:
+    if isinstance(spreadb, np.ndarray):
         plt.subplot(2,2,3)
-        if np.all(rmseb)!=None:
+        if isinstance(rmseb, np.ndarray):
             plt.plot(t,rmseb,'b',label='RMSE')
         plt.plot(t,spreadb,'--k',label='spread')
         plt.legend()
@@ -195,7 +195,7 @@ def plotRMSP(exp_title,t,rmseb=None,rmsea=None,spreadb=None,spreada=None):
         plt.xlabel('time')
         plt.grid(True)
 
-    if np.all(spreada)!=None:
+    if isinstance(spreada, np.ndarray):
         plt.subplot(2,2,4)
         plt.plot(t,rmsea,'m',label='RMSE')
         plt.plot(t,spreada,'--k',label='spread')
@@ -206,12 +206,12 @@ def plotRMSP(exp_title,t,rmseb=None,rmsea=None,spreadb=None,spreada=None):
 
     plt.subplots_adjust(hspace=0.25)
 
-  
+
 def plotDA_kf(t,xt,tobs,H,y,Xb,xb,Xa,xa,exp_title):
     """plot the KF results in L96
     Note: it does not work with direct observation on grid points
     e.g. it doesn't work with foot_6 or foot_cent.
-    It might be better to plot in obs. space instead of 
+    It might be better to plot in obs. space instead of
     model space (todo?) !!!
 
     Parameters
@@ -314,11 +314,11 @@ def tileplotlocM(mat, lam, mycmap_out=None,vs_out=None,figout=None):
     if mycmap_out==None:
         mycmap = 'BrBG'
     else:
-        mycmap = mycmap_out   
+        mycmap = mycmap_out
     if vs_out==None:
-        vs=[-2,2]   
+        vs=[-2,2]
     else:
-        vs = vs_out   
+        vs = vs_out
     N1,N2 = np.shape(mat)
     if figout==None:
         plt.figure()
@@ -380,27 +380,27 @@ def plot_LocMatrix(P, name='matrix'):
         fig = plt.figure()
         ax = fig.subplots(1,2)
         fig.subplots_adjust(wspace=.3)
-        
+
         #Plot covariance
         clim = np.max(np.abs(P)) * np.array([-1,1])
         im = ax[0].pcolor(P, cmap='seismic', clim=clim)
         ax[0].invert_yaxis()
-        
+
         #set labels
         ax[0].set_aspect('equal')
         ax[0].set_xlabel(r'$x_{i}$')
         ax[0].set_ylabel(r'$x_{j}$')
-        
+
         #offset ticks by 0.5
-        ax[0].xaxis.set_major_locator(ticker.IndexLocator(1,.5))      
-        ax[0].yaxis.set_major_locator(ticker.IndexLocator(1,.5))     
-        ax[0].xaxis.set_major_formatter(lambda x,pos: str(int(x)))      
-        ax[0].yaxis.set_major_formatter(lambda x,pos: str(int(x)))     
+        ax[0].xaxis.set_major_locator(ticker.IndexLocator(1,.5))
+        ax[0].yaxis.set_major_locator(ticker.IndexLocator(1,.5))
+        ax[0].xaxis.set_major_formatter(lambda x,pos: str(int(x)))
+        ax[0].yaxis.set_major_formatter(lambda x,pos: str(int(x)))
         ax[0].set_title(name)
-        
+
         #Add colorbar
         cb = plt.colorbar(im, orientation='horizontal')
-        
+
         #Plot spectrum
         s, V = np.linalg.eig(P)
         # dealing with the numerical approximation of the eig function in numpy
@@ -413,7 +413,7 @@ def plot_LocMatrix(P, name='matrix'):
 
         ax[1].plot(np.arange(len(s)), np.sort(s)[::-1], 'ko')
         ax[1].set_ylim(0, 1.05*np.max(s))
-        
+
         #Labels for spectrum
         ax[1].set_xlabel('Index')
         ax[1].set_ylabel('Eigenvalue')
@@ -521,7 +521,7 @@ def make_histogram(nbins, xtrue_traj, x_traj, model_times, anal_times, title):
 
 def plot_log_test(x, y, xaxname, yaxname, title):
     """Plot correctness diagram or gradient test
-    
+
     This can be used to test correctness of the TL model
 
     Parameters
@@ -643,7 +643,7 @@ def plotL63obs(t,xt,tobs,H,y,exp_title):
     """plot the obs. along with truth in L63
     Note: it does not work with direct observation on grid points
     e.g. it doesn't work with foot_6 or foot_cent.
-    It might be better to plot in obs. space instead of 
+    It might be better to plot in obs. space instead of
     model space (todo?) !!!
 
     Parameters
@@ -744,7 +744,7 @@ def plotL63DA_kf(t,xt,tobs,H,y,Xb,xb,Xa,xa,exp_title):
         plt.grid(True)
         plt.subplots_adjust(hspace=0.3)
 
- 
+
     #plt.figure().suptitle('Truth, Observations, Background and Analysis Mean')
     plt.figure().suptitle(exp_title)
     for i in range(3):
@@ -847,7 +847,7 @@ def compare_schemes(Nx, t, ut, ncols, datalist, labels):
                     axs[irow,icol].set_ylim(xmin,xmax)
                 else:
                     axs[irow,icol].axis('off')
-    fig.subplots_adjust(top=0.94) 
+    fig.subplots_adjust(top=0.94)
     fig.legend(labels=labels, loc="upper center", ncol=len(datalist)+1)
 
 
@@ -867,12 +867,12 @@ def compare_RMSE(Nsteps, t, ut, datalist, H, labels, lab_cols):
     fig.set_size_inches(1.5*w, h)
     axs=fig.subplots(1,2,sharey=True)
     for i in range(2):
-        axs[i].set_title(title_txt[i])            
+        axs[i].set_title(title_txt[i])
         for j in range(len(rmse)):
-            axs[i].plot(t,rmse[j,:,i],colors[j],linewidth=lwd) 
+            axs[i].plot(t,rmse[j,:,i],colors[j],linewidth=lwd)
             axs[i].set_xlabel('time')
     axs[0].set_ylabel('RMSE')
-    fig.subplots_adjust(bottom=0.2) 
+    fig.subplots_adjust(bottom=0.2)
     fig.legend(labels=labels, loc="lower center",ncol=lab_cols)
 
 
@@ -920,19 +920,19 @@ def compareB(Bc, Pbs_kf, LPbs_kf, nsample):
 def compare_covariances(Bt,Pbt,Lxx,lags,lim,cmap,title):
     fig, axs=plt.subplots(3,lags,sharex=True, sharey=True)
     for icol in range(lags):
-        axs[0,icol].imshow(np.array(Bt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim)  
-        axs[1,icol].imshow(np.array(Pbt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim)  
-        axs[2,icol].imshow(np.array(Lxx*Pbt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim) 
+        axs[0,icol].imshow(np.array(Bt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim)
+        axs[1,icol].imshow(np.array(Pbt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim)
+        axs[2,icol].imshow(np.array(Lxx*Pbt[:,:,icol]),cmap=cmap,vmin=-lim,vmax=lim)
         axs[0,icol].set_title(title+'t='+str(icol))
     axs[0,0].set_ylabel('Exact')
     axs[1,0].set_ylabel('Raw')
-    axs[2,0].set_ylabel('Localized') 
-    
+    axs[2,0].set_ylabel('Localized')
 
-    
+
+
 def plotUniDensities(times,prop_sample,var1D):
     '''
-    plot the evoloved densities of one variable with a Gaussian approximation 
+    plot the evoloved densities of one variable with a Gaussian approximation
     overlayed
 
     Parameters
@@ -958,7 +958,7 @@ def plotUniDensities(times,prop_sample,var1D):
         xmin, xmax = ax.get_xlim()
         x = np.linspace(xmin, xmax, 100)
         p = norm.pdf(x, mu, std)
-    
+
         ax.plot(x, p, 'k', linewidth=2)
         title = "time step: {:.0f}".format(times[idx])
         ax.set_title(title)
@@ -967,7 +967,7 @@ def plotUniDensities(times,prop_sample,var1D):
 def plotMultiDensities(times,prop_sample,vars2D):
     '''
     plot the evoloved joint densities of two variable
-    
+
     Parameters
     ----------
     times : interger array
@@ -986,11 +986,10 @@ def plotMultiDensities(times,prop_sample,vars2D):
     a = a.ravel()
     for idx,ax in enumerate(a):
         data1 = prop_sample[vars2D[0],times[idx],:]
-        
+
         data2 = prop_sample[vars2D[1],times[idx],:]
         # Plot density.
         ax.hist2d(data1,data2, bins=50,cmap = "Greens", )
         title = "time step: {:.0f}".format(times[idx])
         ax.set_title(title)
     plt.tight_layout()
-    

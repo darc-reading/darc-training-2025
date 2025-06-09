@@ -26,7 +26,7 @@ def lorenz63(x0, tf, deltat, discard, param=None):
     """
     # Number of time steps (+1 as t=0 included also)
     nt = int(tf / deltat) + 1
-    # Now, define the vectors for space vars. 
+    # Now, define the vectors for space vars.
     # They're organized in an
     # array of 3 columns [x,y,z].
     xf = np.empty((3, nt), order='F')
@@ -62,13 +62,13 @@ def f(x, param=None):
         df/dt as described by the Lorenz-96 model
     """
     # The parameters
-    if np.all(param)==None:
+    if not isinstance(param, np.ndarray):
         sigma = 10.0
         b = 8/3.0
         r = 28.0
     else:
         sigma, b, r = param
-     
+
     # Initialize
     k = np.empty_like(x)
     k.fill(np.nan)

@@ -236,7 +236,7 @@ def enkfs(Xb, y, H, R, rho, met, localDomainObsMask, locmatrix, adaptive):
         or P*(1+rho)^2.
     met : str
         a string that indicated what method to use
-    localDomainObsMask : list 
+    localDomainObsMask : list
         observation mask used for each local analysis domain
         each element of the list contains observation mask for each domain
     locmatrix : ndarray
@@ -253,7 +253,7 @@ def enkfs(Xb, y, H, R, rho, met, localDomainObsMask, locmatrix, adaptive):
     # The background information
     y = y.reshape(len(y), 1) # array -> column vector
     sqR = msq(R)
- 
+
     # Number of state variables, ensemble members and observations
     nx, ne = Xb.shape
     ny, _ = H.shape
@@ -281,7 +281,7 @@ def enkfs(Xb, y, H, R, rho, met, localDomainObsMask, locmatrix, adaptive):
         # The matrix of perturbations
         Yb_pert = Yb@(I-U)
 
-        if np.all(locmatrix) == None:
+        if not isinstance(locmatrix, np.ndarray):
             # The Kalman gain matrix without localization
             Khat = inv_ne*Xb_pert@Yb_pert.T @ minv(inv_ne*Yb_pert@Yb_pert.T+R)
         else:
@@ -299,7 +299,7 @@ def enkfs(Xb, y, H, R, rho, met, localDomainObsMask, locmatrix, adaptive):
 
     # Ensemble Transform Kalman Filter
     elif met=='ETKF':
-        if np.all(locmatrix) == None:
+        if not isinstance(locmatrix, np.ndarray):
             # The ensemble is inflated (rho can be zero)
             Xb_pert = (1+rho)*(Xb@(I-U))
             Xb = Xb_pert + Xb@U
@@ -336,7 +336,7 @@ def enkfs(Xb, y, H, R, rho, met, localDomainObsMask, locmatrix, adaptive):
                        localDomainObsMask, locmatrix, R, adaptive)
     else:
         raise NotImplementedError(f'{met} is not implemented, try ETKF or SEnKF')
-  
+
     return Xa, rho
 
 
@@ -377,7 +377,7 @@ def letkf(Xb_pert, xb_bar, Yb_pert, yb_bar, y, H, rho, mask, locmatrix, R, adapt
 
 
 def adaptive_inflation(locmatrix_aux, Yb_pert_aux, M, loc_invR, rhob, d_aux):
-    loc_tr = np.trace(locmatrix_aux)          
+    loc_tr = np.trace(locmatrix_aux)
     vb = 0.05**2.0 # This is something prescribed and tuned!
     den = np.trace(np.dot(Yb_pert_aux,Yb_pert_aux.T)/(M-1.0)* loc_invR)
     alphab = (1+rhob)**2
@@ -390,7 +390,7 @@ def adaptive_inflation(locmatrix_aux, Yb_pert_aux, M, loc_invR, rhob, d_aux):
 def getObsForLocalDomain(nx, lam, H):
     """ obtain a list of masks which gives
     the observations used for each local domain.
-    
+
     This function assumes that the coordinate is periodic
     1D integers such as the index of Lorenz96 model.
 
@@ -422,7 +422,7 @@ def getObsForLocalDomain(nx, lam, H):
     # get the number of grid points in the domain of influence
     n = lim2[0] - lim1[0] + 1
     # when the domain cross the boundary
-    if n <= 0: n += nx 
+    if n <= 0: n += nx
     # the special case when we should include entire domain
     if lam > 0. and n == 1: n = nx
 
@@ -431,7 +431,7 @@ def getObsForLocalDomain(nx, lam, H):
     for i, (l1, l2) in enumerate(zip(lim1, lim2)):
         if l1>l2:
             radius[i] = np.append([np.arange(0,l2+1)], [np.arange(l1,nx)])
-        elif l1<l2:   
+        elif l1<l2:
             radius[i] = np.arange(l1,l2+1,1)
         else:
             radius[i] = np.arange(nx) if lam > 0. else l1
@@ -516,7 +516,7 @@ def gasparicohn(z, lam):
         warnings.filterwarnings('ignore', r'divide by zero encountered in reciprocal')
         C0 = np.where(zn <= 1, - 1.0/4*zn**5 + 1.0/2*zn**4 + \
                                5.0/8*zn**3 - 5.0/3*zn**2 + 1,
-                      np.where((zn > 1) & (zn <= 2), 
+                      np.where((zn > 1) & (zn <= 2),
                                1.0/12*zn**5 - 1.0/2*zn**4 + \
                                5.0/8*zn**3 + 5.0/3*zn**2 - \
                                5*zn + 4 - 2.0/3*zn**(-1),
