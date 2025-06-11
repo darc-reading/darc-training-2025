@@ -42,7 +42,7 @@ def eulerTLM(Xold, dx, deltat, ftlm):
      : ndarray
         time increment to model perturbation
     """
-    return deltat * ftlm(Xold)*dx
+    return deltat * ftlm(Xold, dx)
 
 
 def eulerADJ(Xold, dx, deltat, fadj):
@@ -65,7 +65,7 @@ def eulerADJ(Xold, dx, deltat, fadj):
      : ndarray
         time increment to model perturbation
     """
-    return deltat * fadj(Xold)*dx
+    return deltat * fadj(Xold, dx)
 
 
 def rk4(Xold, deltat, f):

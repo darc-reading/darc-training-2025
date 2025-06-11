@@ -224,8 +224,9 @@ def Lorenz96_TL_simple(x_traj, dx0, deltat, integration_type):
     dx_traj = np.empty([nx, nt], order='F')
     dx_traj[:, 0] = dx0
     integrator = eulerTLM if integration_type == 'Euler' else rk4TLM
+    tlm_func = tlm if integration_type == 'Euler' else tlm_matrix
     for it in range(nt-1):
-        _, delta_dx = integrator(x_traj[:, it], dx_traj[:, it], deltat, tlm_matrix)
+        _, delta_dx = integrator(x_traj[:, it], dx_traj[:, it], deltat, tlm_func)
         dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
     return dx_traj
 
@@ -254,8 +255,9 @@ def Lorenz96_TL_simple_adj(x_traj, dx, deltat, integration_type):
     nx, nt = x_traj.shape
     dx0 = dx.copy()
     integrator = eulerADJ if integration_type == 'Euler' else rk4ADJ
+    adj_func = fadj if integration_type == 'Euler' else fadj_matrix
     for it in range(nt-2, -1, -1):
-        dx0 += integrator (x_traj[:,it], dx0, deltat, fadj_matrix)
+        dx0 += integrator (x_traj[:,it], dx0, deltat, adj_func)
     return dx0
 
 
@@ -280,7 +282,8 @@ def Lorenz96_TL1_simple (x, dx0, deltat, integration_type):
         model perturbation
     """
     integrator = eulerTLM if integration_type == 'Euler' else rk4TLM
-    _, delta_dx = integrator(x, dx0, deltat, tlm_matrix)
+    tlm_func = tlm if integration_type == 'Euler' else tlm_matrix
+    _, delta_dx = integrator(x, dx0, deltat, tlm_func)
     return dx0 + delta_dx
 
 
@@ -305,7 +308,8 @@ def Lorenz96_TL1_simple_adj (x, dx, deltat, integration_type):
         model perturbation
     """
     integrator = eulerADJ if integration_type == 'Euler' else rk4ADJ
-    dx0 = dx + integrator (x, dx, deltat, fadj_matrix)
+    fadj_func = fadj if integration_type == 'Euler' else fadj_matrix
+    dx0 = dx + integrator (x, dx, deltat, fadj_func)
     return dx0
 
 
@@ -376,7 +380,7 @@ def tlm_matrix(x):
     nx = len(x)
     TLM = np.zeros((nx,nx))
     for i in range(nx):
-        TLM[i,i-2] = -x[i-1] 
+        TLM[i,i-2] = -x[i-1]
         TLM[i,i-1] = -x[i-2] + x[(i+1)%nx]
         TLM[i,i] = -1
         TLM[i,(i+1)%nx] = x[i-1]
