@@ -4,7 +4,7 @@ import functools
 
 import numpy as np
 
-from tools.timestepping import rk4, rk4TLM, rk4ADJ, eulerTLM
+from tools.timestepping import rk4, rk4TLM, rk4ADJ, euler, eulerTLM, eulerADJ
 
 
 def lorenz96(x0, tf, deltat, discard, param):
