@@ -225,11 +225,11 @@ def Lorenz96_TL_simple(x_traj, dx0, deltat, integration_type):
     dx_traj[:, 0] = dx0
     if integration_type == 'Euler':
         for it in range(nt-1):
-            _, delta_dx = eulerTLM(x_traj[:, it], dx_traj[:, it], deltat, tlm)
+            delta_dx = eulerTLM(x_traj[:, it], dx_traj[:, it], deltat, tlm)
             dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
     else:
         for it in range(nt-1):
-            delta_dx = rk4TLM(x_traj[:, it], dx_traj[:, it], deltat, tlm_matrix)
+            _, delta_dx = rk4TLM(x_traj[:, it], dx_traj[:, it], deltat, tlm_matrix)
             dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
     return dx_traj
 
