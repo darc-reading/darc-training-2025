@@ -223,11 +223,14 @@ def Lorenz96_TL_simple(x_traj, dx0, deltat, integration_type):
     nx, nt = x_traj.shape
     dx_traj = np.empty([nx, nt], order='F')
     dx_traj[:, 0] = dx0
-    integrator = eulerTLM if integration_type == 'Euler' else rk4TLM
-    tlm_func = tlm if integration_type == 'Euler' else tlm_matrix
-    for it in range(nt-1):
-        _, delta_dx = integrator(x_traj[:, it], dx_traj[:, it], deltat, tlm_func)
-        dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
+    if integration_type == 'Euler':
+        for it in range(nt-1):
+            _, delta_dx = eulerTLM(x_traj[:, it], dx_traj[:, it], deltat, tlm)
+            dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
+    else:
+        for it in range(nt-1):
+            delta_dx = rk4TLM(x_traj[:, it], dx_traj[:, it], deltat, tlm_matrix)
+            dx_traj[:, it + 1] = dx_traj[:, it] + delta_dx
     return dx_traj
 
 
