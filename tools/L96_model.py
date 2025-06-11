@@ -284,9 +284,10 @@ def Lorenz96_TL1_simple (x, dx0, deltat, integration_type):
      : ndarray
         model perturbation
     """
-    integrator = eulerTLM if integration_type == 'Euler' else rk4TLM
-    tlm_func = tlm if integration_type == 'Euler' else tlm_matrix
-    _, delta_dx = integrator(x, dx0, deltat, tlm_func)
+    if integration_type == 'Euler':
+        delta_dx = eulerTLM(x, dx0, deltat, tlm)
+    else:
+        _, delta_dx = rk4TLM(x, dx0, deltat, tlm_matrix)
     return dx0 + delta_dx
 
 
