@@ -1,0 +1,94 @@
+time window:
+  begin: &date_bgn 2010-01-01T00:00:00Z 
+  length: PT12H 
+
+geometry:
+  nx: 40 
+  ny: 20 
+  depths: [4500.0, 5500.0] 
+
+background:
+  members from template:
+    template:
+      states:
+      - date: &date_end 2010-01-01T12:00:00Z
+        filename: Data/forecast.ens.%mem%.2009-12-31T00:00:00Z.P1DT12H.nc
+    pattern: %mem%
+    nmembers: 10  # <= choose the ensemble size from 2 to 100
+
+increment variables: [x]
+
+observations:
+  observers:
+  - obs operator:
+      obs type: Stream
+    obs space:
+      obsdatain:
+        obsfile: &obs_file Data/truth.obs4d_12h_global.nc
+        # obsfile: &obs_file Data/truth.obs4d_12h_north.nc
+        # obsfile: &obs_file Data/truth.obs4d_12h_south.nc
+      obsdataout:
+        obsfile: output/letkf.obs4d_12h.nc
+      obs type: Stream
+    obs error:
+      covariance model: diagonal
+    obs localizations:
+    - localization method: Heaviside
+      lengthscale: &localizaton_radiu 5e6  # <= choose the localization lengthscale for Stream observation 
+  - obs operator:
+      obs type: Wind
+    obs space:
+      obsdatain:
+        obsfile: *obs_file 
+      obsdataout:
+        obsfile: output/letkf.obs4d_12h.nc
+      obs type: Wind
+    obs error:
+      covariance model: diagonal
+    obs localizations:
+    - localization method: Heaviside
+      lengthscale: *localizaton_radiu
+  - obs operator:
+      obs type: WSpeed
+    obs space:
+      obsdatain:
+        obsfile: *obs_file 
+      obsdataout:
+        obsfile: output/letkf.obs4d_12h.nc
+      obs type: WSpeed
+    obs error:
+      covariance model: diagonal
+    obs localizations:
+    - localization method: Heaviside
+      lengthscale: *localizaton_radiu
+
+driver:
+  update obs config with geometry info: false
+  save posterior mean: true
+  save posterior ensemble: false
+  # save posterior mean increment: true
+  save prior mean: true
+
+local ensemble DA:
+  solver: LETKF
+  inflation:
+    mult: 1.1  # <= choose the multiplicative inflation factor
+
+output:
+  states:
+  - datadir: output
+    date: *date_end
+    exp: letkf.end.%{member}%
+    type: an
+
+output mean prior:
+  states:
+  - datadir: output  
+    date: *date_end
+    exp: prior.mean
+    type: fc 
+
+# output increment:
+#   datadir: output
+#   exp: increment
+#   type: in
