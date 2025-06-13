@@ -9,7 +9,7 @@ This year, the DARC training course is splitted into foundation and advanced cou
 In the advanced course, we provide practicals for 
 - Variational DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Var.ipynb) and [JEDI instructions](JEDI_SABER_exps.pdf)
 - EnKF DA: [Jupyter Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L96_Enkf.ipynb), [Optional Notebook](https://colab.research.google.com/github/darc-reading/darc-training-2025/blob/main/Controls_L63_Enkf.ipynb) and [JEDI instructions](JEDI_LETKF_exps.pdf)
-- Machine learning and DA [To be released]
+- [Machine learning and DA](https://colab.research.google.com/drive/1resUNqp3HHIwV-Ra-tli5Lgu4Qft-ZEB?usp=sharing)
 
 ## Running on your own laptop locally
 To run practicals on your local laptop, we recommend configure the Python environment using `conda`. Once you installed `conda`, you can launch the Jupyter notebook with the following command in your terminal or anaconda command prompt:
